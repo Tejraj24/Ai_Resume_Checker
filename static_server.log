@@ -1,0 +1,28 @@
+nohup: ignoring input
+127.0.0.1 - - [16/Mar/2026 11:21:10] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [16/Mar/2026 11:22:15] "GET /style.css HTTP/1.1" 200 -
+127.0.0.1 - - [16/Mar/2026 11:27:19] "HEAD / HTTP/1.1" 200 -
+127.0.0.1 - - [16/Mar/2026 11:57:33] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [16/Mar/2026 11:57:35] "GET /style.css HTTP/1.1" 200 -
+127.0.0.1 - - [16/Mar/2026 11:57:35] code 404, message File not found
+127.0.0.1 - - [16/Mar/2026 11:57:35] code 404, message File not found
+127.0.0.1 - - [16/Mar/2026 11:57:35] "GET /js/fileHandler.js HTTP/1.1" 404 -
+127.0.0.1 - - [16/Mar/2026 11:57:35] "GET /js/ui.js HTTP/1.1" 404 -
+127.0.0.1 - - [16/Mar/2026 11:57:35] code 404, message File not found
+127.0.0.1 - - [16/Mar/2026 11:57:35] "GET /js/api.js HTTP/1.1" 404 -
+127.0.0.1 - - [16/Mar/2026 11:57:35] code 404, message File not found
+127.0.0.1 - - [16/Mar/2026 11:57:35] "GET /js/app.js HTTP/1.1" 404 -
+127.0.0.1 - - [16/Mar/2026 11:57:42] code 404, message File not found
+127.0.0.1 - - [16/Mar/2026 11:57:42] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [16/Mar/2026 12:29:19] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [16/Mar/2026 12:29:19] "GET /style.css HTTP/1.1" 200 -
+127.0.0.1 - - [16/Mar/2026 12:29:19] code 404, message File not found
+127.0.0.1 - - [16/Mar/2026 12:29:19] "GET /js/ui.js HTTP/1.1" 404 -
+127.0.0.1 - - [16/Mar/2026 12:29:19] code 404, message File not found
+127.0.0.1 - - [16/Mar/2026 12:29:19] "GET /js/fileHandler.js HTTP/1.1" 404 -
+127.0.0.1 - - [16/Mar/2026 12:29:19] code 404, message File not found
+127.0.0.1 - - [16/Mar/2026 12:29:19] code 404, message File not found
+127.0.0.1 - - [16/Mar/2026 12:29:19] "GET /js/app.js HTTP/1.1" 404 -
+127.0.0.1 - - [16/Mar/2026 12:29:19] "GET /js/api.js HTTP/1.1" 404 -
+127.0.0.1 - - [16/Mar/2026 12:29:21] code 404, message File not found
+127.0.0.1 - - [16/Mar/2026 12:29:21] "GET /favicon.ico HTTP/1.1" 404 -

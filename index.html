@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ResumeIQ — AI-Powered Resume Analyzer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">Resume<span>IQ</span></div>
+    <div class="nav-badge">AI-Powered</div>
+  </nav>
+
+  <main>
+
+    <!-- HERO -->
+    <div class="hero">
+  <div class="hero-eyebrow">Powered by ResumeIQ</div>
+      <h1>Your resume,<br><span class="highlight">brutally honest.</span></h1>
+      <p class="hero-sub">Paste your resume and get instant, structured feedback — strengths, gaps, ATS score, and actionable suggestions.</p>
+    </div>
+
+    <!-- INPUT CARD -->
+    <div class="card" id="inputCard">
+      <div class="input-tabs">
+        <button class="tab-btn active" data-tab="paste">Paste Text</button>
+        <button class="tab-btn" data-tab="upload">Upload File</button>
+      </div>
+
+      <!-- PASTE TAB -->
+      <div id="pasteTab">
+        <div class="field-label">Resume Content</div>
+        <textarea id="resumeText" placeholder="Paste your full resume here — include all sections: contact info, summary, experience, education, skills..."></textarea>
+      </div>
+
+      <!-- UPLOAD TAB -->
+      <div id="uploadTab" style="display:none;">
+        <div class="field-label">Upload Resume</div>
+        <div class="drop-zone visible" id="dropZone">
+          <input type="file" id="fileInput" accept=".txt,.pdf,.doc,.docx,.png,.jpg,.jpeg,.webp">
+          <div class="drop-zone-icon">📄</div>
+          <p><strong>Drop your file here</strong></p>
+          <p>PDF, DOCX, TXT, or image (JPG, PNG, WEBP)</p>
+        </div>
+        <div id="fileStatus">
+          <span>✓</span><span id="fileStatusText"></span>
+        </div>
+      </div>
+
+      <!-- JD TOGGLE -->
+      <label class="jd-toggle">
+        <input type="checkbox" id="jdToggle">
+        <div class="toggle-track"></div>
+        <span class="toggle-label"><strong>Add job description</strong> for targeted feedback</span>
+      </label>
+
+      <div id="jdArea">
+        <div class="field-label" style="margin-top:0;">Job Description</div>
+        <textarea id="jdTextarea" placeholder="Paste the job description you're targeting..."></textarea>
+      </div>
+
+      <div class="cta-row">
+        <button class="btn-analyze" id="analyzeBtn" onclick="analyzeResume()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/>
+          </svg>
+          Analyze Resume
+        </button>
+        <span class="char-count" id="charCount">0 characters</span>
+      </div>
+
+      <div class="error-box" id="errorBox"></div>
+    </div>
+
+    <!-- LOADING STATE -->
+    <div class="loading-state" id="loadingState">
+      <div class="loader-ring"></div>
+      <strong>Analyzing your resume…</strong>
+      <p id="loadingMsg">Reading through your experience and skills</p>
+    </div>
+
+    <!-- RESULTS -->
+    <div id="results">
+      <div class="results-header">
+        <h2>Analysis Complete</h2>
+        <button class="btn-reset" onclick="resetApp()">← Analyze Another</button>
+      </div>
+
+      <!-- ATS SCORE -->
+      <div class="ats-banner" id="atsBanner">
+        <div class="score-ring-wrap">
+          <svg width="100" height="100" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="42" fill="none" stroke="#1e2d45" stroke-width="8"/>
+            <circle id="scoreArc" cx="50" cy="50" r="42" fill="none" stroke="#00e5b0" stroke-width="8"
+              stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264"/>
+          </svg>
+          <div class="score-number">
+            <span class="num" id="scoreNum">—</span>
+            <span class="denom">/100</span>
+          </div>
+        </div>
+        <div class="score-info">
+          <h3>🎯 ATS Compatibility Score</h3>
+          <p id="atsReasoning">Loading reasoning…</p>
+        </div>
+      </div>
+
+      <!-- FEEDBACK SECTIONS -->
+      <div class="sections-grid">
+        <div class="section-card strengths">
+          <div class="section-head">
+            <div class="section-icon">✅</div>
+            <h3>Strengths</h3>
+          </div>
+          <ul class="section-list" id="strengthsList"></ul>
+        </div>
+
+        <div class="section-card weaknesses">
+          <div class="section-head">
+            <div class="section-icon">⚠️</div>
+            <h3>Weaknesses</h3>
+          </div>
+          <ul class="section-list" id="weaknessesList"></ul>
+        </div>
+
+        <div class="section-card suggestions full">
+          <div class="section-head">
+            <div class="section-icon">💡</div>
+            <h3>Suggestions</h3>
+          </div>
+          <ul class="section-list" id="suggestionsList"></ul>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>ResumeIQ uses an AI analysis engine. Your resume is never stored.</footer>
+
+  <!-- External Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+
+  <!-- App Scripts -->
+  <script src="js/ui.js"></script>
+  <script src="js/fileHandler.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
