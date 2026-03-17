@@ -61,6 +61,19 @@ async function handleAnalyze(reqBody) {
   // generic (RESUMEIQ_API_KEY) so the implementation details don't appear
   // in the UI or top-level docs.
   const apiKey = process.env.RESUMEIQ_API_KEY || '';
+
+  // If no API key is configured, return a canned mock response so the
+  // frontend can be tested without contacting the real analysis API.
+  if (!apiKey) {
+    return {
+      ats_score: 72,
+      ats_reasoning: 'Resume contains relevant keywords and clear structure; minor formatting issues reduce ATS parsing accuracy.',
+      strengths: ['Clear experience bullets', 'Good technical keywords', 'Concise education section', 'Relevant projects', 'Contact info present'],
+      weaknesses: ['Minor formatting inconsistencies', 'No quantified achievements in some roles', 'Skills section could be reordered', 'Short summary'],
+      suggestions: ['Quantify impact with metrics (e.g., % improvement)', 'Use consistent date formatting', 'Move top skills near the summary', 'Add a short career summary', 'Tailor keywords to the JD']
+    };
+  }
+
   const resp = await fetch(API_ENDPOINT, {
     method: 'POST',
     headers: {
