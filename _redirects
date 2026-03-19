@@ -1,0 +1,2 @@
+# Redirect the client-facing API path to the Netlify Function
+/api/analyze /.netlify/functions/analyze 200
