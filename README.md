@@ -31,6 +31,7 @@ chmod +x start.sh
 ```
 http://localhost:8000
 ```
+4. Link : https://ai-resume-checke.netlify.app/
 
 Notes
 - The proxy listens on port `3000`. The client posts to `/api/analyze` (same origin when you open the static site).
