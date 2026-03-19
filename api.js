@@ -5,10 +5,17 @@
 // Send the extracted resume (or image base64) to the local proxy which
 // forwards the request to the analysis backend using a server-side API key.
 async function callAnalysisAPI(resumeText, jdText, imageData) {
-  // The static site is served on :8000 while the proxy listens on :3000.
-  // Use the proxy origin explicitly so the POST does not hit the static server.
-  const proxyOrigin = `${location.protocol}//${location.hostname}:3000`;
-  const proxyUrl = `${proxyOrigin}/api/analyze`;
+  // The proxy lives on port 3000 for local development only. When the app is
+  // running on localhost (or 127.0.0.1) use the explicit proxy origin so the
+  // POST goes to the local proxy. When the app is served from a remote host
+  // (for example a Netlify/HTTPS site) we MUST NOT try to reach
+  // "https://<remote-host>:3000" — that times out and is unreachable. In
+  // that case use a relative path so the request goes to the same origin
+  // (where a real backend/proxy should be hosted in production).
+  const isLocalhost = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.hostname === '';
+  const proxyUrl = isLocalhost
+    ? `${location.protocol}//${location.hostname}:3000/api/analyze`
+    : '/api/analyze';
 
   const resp = await fetch(proxyUrl, {
     method: 'POST',
